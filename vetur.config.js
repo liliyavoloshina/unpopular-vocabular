@@ -4,10 +4,10 @@ module.exports = {
     'vetur.experimental.templateInterpolationService': true
   },
   projects: [
-    './front-end',
+    './client',
     {
-      root: './front-end',
-      package: './front-end/package.json'
+      root: './client',
+      package: './client/package.json'
     }
   ]
 }

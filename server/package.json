@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Backend for popular-vocabular project",
+  "description": "Backend for unpopular-vocabular project",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"

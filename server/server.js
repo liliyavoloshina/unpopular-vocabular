@@ -8,7 +8,7 @@ const routes = require('./api/routes/vocabRoutes')
 mongoose.Promise = global.Promise
 mongoose.set('useFindAndModify', false)
 mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.wohxj.mongodb.net/popular-vocabular`,
+  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@unpopular-vocabular-clu.wiqoo.mongodb.net/unpopular-vocabular`,
   { useNewUrlParser: true, useUnifiedTopology: true }
 )
 

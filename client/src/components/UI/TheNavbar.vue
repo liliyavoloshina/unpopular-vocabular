@@ -2,10 +2,7 @@
 	<b-navbar centered type="is-dark">
 		<template #brand>
 			<b-navbar-item tag="router-link" :to="{name: 'Home'}">
-				<img
-					src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
-					alt="Lightweight UI components for Vue.js based on Bulma"
-				/>
+				Unpopular Vocabular
 			</b-navbar-item>
 		</template>
 		<template #start>

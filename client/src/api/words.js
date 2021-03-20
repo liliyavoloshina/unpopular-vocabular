@@ -1,12 +1,9 @@
 import axios from './axios'
+import {errorCatcher} from '../helpers/helpers'
 
-const getWords = async () => {
-	try {
-		const response = await axios.get()
-		return response.data
-	} catch (e) {
-		return e.response
-	}
-}
+const getWords = errorCatcher(async () => {
+	const response = await axios.get()
+	return response.data
+})
 
 export {getWords}

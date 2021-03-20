@@ -19,9 +19,9 @@
 
       <b-table-column field="author" v-slot="props">
         <div class="buttons is-pulled-right">
-          <b-button type="is-primary" icon-right="info" />
-          <b-button type="is-warning" icon-right="pen" />
-          <b-button type="is-danger" icon-right="trash" />
+          <b-button type="is-primary" icon-right="info" size="is-small" />
+          <b-button type="is-warning" icon-right="pen" size="is-small" />
+          <b-button type="is-danger" icon-right="trash" size="is-small" />
         </div>
 
         {{props.row.author}}
@@ -43,7 +43,11 @@ export default {
   },
   async created() {
     this.isLoading = true
-    this.words = await getWords()
+    try {
+      this.words = await getWords()
+    } catch (e) {
+      console.log(e)
+    }
     this.isLoading = false
   }
 }

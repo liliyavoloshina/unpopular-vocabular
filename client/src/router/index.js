@@ -18,6 +18,11 @@ const routes = [
     path: '/new-word',
     name: 'NewWord',
     component: () => import('../views/NewWord')
+  },
+  {
+    path: '/words/:id',
+    name: 'SingleWord',
+    component: () => import('../views/SingleWord')
   }
 ]
 

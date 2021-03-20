@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <section class="section">
     Привет привет фтивйРУГ ЙрцгрсвыфрисфрЙЦРВРЙ
-  </div>
+  </section>
 </template>
 
 <script>

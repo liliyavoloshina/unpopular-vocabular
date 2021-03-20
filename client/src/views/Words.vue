@@ -19,9 +19,10 @@
 
       <b-table-column field="author" v-slot="props">
         <div class="buttons is-pulled-right">
-          <b-button type="is-primary" icon-right="info" size="is-small" />
+          <b-button tag="router-link" :to="{name: 'SingleWord',  params: {id: props.row._id}}" type="is-primary"
+            icon-right="info" size="is-small" />
           <b-button type="is-warning" icon-right="pen" size="is-small" />
-          <b-button type="is-danger" icon-right="trash" size="is-small" />
+          <b-button @click="destroyWord(props.row._id)" type="is-danger" icon-right="trash" size="is-small" />
         </div>
 
         {{props.row.author}}
@@ -32,7 +33,7 @@
 </template>
 
 <script>
-import {getWords} from '../api/words'
+import {getWords, deleteWord} from '../api/words'
 export default {
   name: 'Words',
   data() {
@@ -49,6 +50,22 @@ export default {
       console.log(e)
     }
     this.isLoading = false
+  },
+  methods: {
+    async destroyWord() {
+      this.$buefy.dialog.confirm({
+        title: 'Deleting account',
+        message:
+          'Are you sure you want to <b>delete</b> your account? This action cannot be undone.',
+        confirmText: 'Delete Account',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: id => {
+          deleteWord(id)
+          this.$buefy.toast.open('Word deleted!')
+        }
+      })
+    }
   }
 }
 </script>

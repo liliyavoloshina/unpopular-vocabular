@@ -2,6 +2,7 @@ import Vue from 'vue'
 const EventBus = new Vue()
 const errorCatcher = fn => (...params) =>
 	fn(...params).catch(e => {
+		console.log(e)
 		const error = `${e.response.status}: ${e.response.statusText}`
 
 		EventBus.$buefy.notification.open({

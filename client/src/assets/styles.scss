@@ -1,1 +1,11 @@
+// Set variables to overwrite Buefy
+@import url('https://fonts.googleapis.com/css2?family=Pangolin&display=swap');
+$family-sans-serif: 'Pangolin', cursive;
+
+
+// Import Bulma's core
+@import '~bulma/sass/utilities/_all';
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
+
 

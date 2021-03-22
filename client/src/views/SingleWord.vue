@@ -1,7 +1,5 @@
 <template>
   <section class="section">
-
-    <h1 class="title is-size-4">{{word.popular}} / {{word.unpopular}}</h1>
     <div class="columns">
       <div class="column">
         <b-field label="Unopular:">
@@ -25,7 +23,7 @@
           {{popularity}}</p>
       </div>
       <div class="column">
-        <p>
+        <p class="is-size-5">
           {{word.description}}
         </p>
       </div>

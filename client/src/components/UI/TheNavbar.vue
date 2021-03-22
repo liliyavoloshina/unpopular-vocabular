@@ -6,20 +6,15 @@
 			</b-navbar-item>
 		</template>
 		<template #start>
-			<b-navbar-item tag="router-link" :to="{name: 'Words'}" href="#" class="is-dark" exact>
+			<b-navbar-item tag="router-link" :to="{name: 'Words'}" class="is-dark" exact>
 				Words
 			</b-navbar-item>
-			<b-navbar-item tag="router-link" :to="{name: 'NewWord'}" href="#" exact>
+			<b-navbar-item tag="router-link" :to="{name: 'NewWord'}" exact>
 				New
 			</b-navbar-item>
-			<b-navbar-dropdown label="Info">
-				<b-navbar-item href="#">
-					About
-				</b-navbar-item>
-				<b-navbar-item href="#">
-					Contact
-				</b-navbar-item>
-			</b-navbar-dropdown>
+			<b-navbar-item tag="router-link" :to="{name: 'Test'}" exact>
+				Test
+			</b-navbar-item>
 		</template>
 	</b-navbar>
 </template>

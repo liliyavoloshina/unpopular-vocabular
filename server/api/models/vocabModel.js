@@ -10,6 +10,9 @@ const VocabSchema = new Schema(
       type: String,
       required: 'Unpopular word cannot be blank'
     },
+    popularity: {
+      type: String
+    },
     description: {
       type: String
     }

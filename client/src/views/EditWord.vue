@@ -1,10 +1,10 @@
 <template>
   <section class="section">
-    <h1 class="title is-size-4">Add New Unpopular Word</h1>
 
+    <h1 class="title is-size-4">Edit </h1>
     <div class="columns">
       <div class="column">
-        <submit-form @createOrUpdate="createOrUpdate" />
+        <submit-form :word="word" @createOrUpdate="createOrUpdate" />
       </div>
       <div class="column">
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur esse asperiores aliquam et amet beatae
@@ -12,23 +12,37 @@
           sunt!</p>
       </div>
     </div>
+    <b-loading :is-full-page="true" v-model="isLoading" :can-cancel="false"></b-loading>
   </section>
 </template>
 
 <script>
-import {postWord} from '../api/words'
+import {putWord, getWord} from '../api/words'
 import SubmitForm from '../components/SubmitForm'
 export default {
-  components: {SubmitForm},
-  name: 'NewWord',
+  name: 'EditWord',
+  components: {
+    SubmitForm
+  },
+  data() {
+    return {
+      word: {},
+      isLoading: false
+    }
+  },
+  async created() {
+    this.isLoading = true
+    this.word = await getWord(this.$route.params.id)
+    this.isLoading = false
+  },
   methods: {
     async createOrUpdate(word) {
-      const response = await postWord(word)
+      await putWord(word)
       this.$buefy.toast.open({
-        message: 'Word successfully created!',
+        message: 'Word successfully edited!',
         type: 'is-success'
       }),
-        this.$router.push(`/words/${response._id}`)
+        this.$router.push(`/words/${word._id}`)
     }
   }
 }

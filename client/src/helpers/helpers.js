@@ -4,8 +4,7 @@ const errorCatcher = fn => (...params) =>
 	fn(...params).catch(e => {
 		console.log(e)
 		const error = `${e.response.status}: ${e.response.statusText}`
-
-		EventBus.$buefy.notification.open({
+		EventBus.$buefy.toast.open({
 			message: error,
 			type: 'is-danger',
 			duration: 5000

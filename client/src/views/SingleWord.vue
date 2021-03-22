@@ -20,6 +20,9 @@
           </p>
           <b-input :value="word.popular" readonly></b-input>
         </b-field>
+
+        <p :class="word.popularity === 'high' ? 'has-text-primary' : 'has-text-success'" class="has-text-weight-bold ">
+          {{popularity}}</p>
       </div>
       <div class="column">
         <p>
@@ -29,8 +32,11 @@
     </div>
 
     <div class="buttons">
-      <router-link :to="{name: 'Edit', params: {id: this.$route.params.id}}">Edit Word</router-link>
+      <b-button :to="{name: 'EditWord', params: {id: this.$route.params.id}}" tag="router-link" type="is-warning"
+        icon-right="pen">Edit Word</b-button>
     </div>
+
+    <b-loading :is-full-page="true" v-model="isLoading" :can-cancel="false"></b-loading>
   </section>
 </template>
 
@@ -40,11 +46,23 @@ export default {
   name: 'SingleWord',
   data() {
     return {
-      word: ''
+      word: '',
+      isLoading: false
+    }
+  },
+  computed: {
+    popularity() {
+      if (this.word.popularity === 'high') {
+        return `This word is very unpopular!`
+      } else {
+        return `This word is quite popular...`
+      }
     }
   },
   async created() {
+    this.isLoading = true
     this.word = await getWord(this.$route.params.id)
+    this.isLoading = false
   }
 }
 </script>

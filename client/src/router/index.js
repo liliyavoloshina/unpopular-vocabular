@@ -15,7 +15,7 @@ const routes = [
     component: () => import('../views/Words')
   },
   {
-    path: '/new-word',
+    path: '/create',
     name: 'NewWord',
     component: () => import('../views/NewWord')
   },
@@ -23,11 +23,17 @@ const routes = [
     path: '/words/:id',
     name: 'SingleWord',
     component: () => import('../views/SingleWord')
+  },
+  {
+    path: '/words/:id/edit',
+    name: 'EditWord',
+    component: () => import('../views/EditWord')
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
+  linkActiveClass: 'is-active',
   base: process.env.BASE_URL,
   routes
 })

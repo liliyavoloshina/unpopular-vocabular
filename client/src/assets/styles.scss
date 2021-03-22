@@ -12,6 +12,8 @@ body::-webkit-scrollbar-track {
 	display: none;
 }
 
+$section-padding: 2rem 1.5rem;
+
 // Import Bulma's core
 @import '~bulma/sass/utilities/_all';
 @import '~bulma';

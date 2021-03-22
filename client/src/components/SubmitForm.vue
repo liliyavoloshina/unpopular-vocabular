@@ -1,5 +1,5 @@
 <template>
-  <form ref="form" @submit.prevent="onSubmit" action="#">
+  <form @submit.prevent="onSubmit" action="#">
     <b-field label="Unpopular:">
       <p class="control">
         <span class="button is-static">
@@ -21,10 +21,10 @@
       <b-input v-model="word.description" maxlength="200" type="textarea"></b-input>
     </b-field>
 
-    <b-field label="Rarity:">
-      <b-select v-model="word.rarity">
-        <option value="high" selected>Very rare</option>
-        <option value="low">Not very rare</option>
+    <b-field label="Popularity:">
+      <b-select v-model="word.popularity">
+        <option value="high" selected>Very unpopular</option>
+        <option value="low">Quite popular</option>
       </b-select>
     </b-field>
 
@@ -46,7 +46,7 @@ export default {
           popular: '',
           unpopular: '',
           description: '',
-          rarity: 'high'
+          popularity: 'high'
         }
       }
     }
@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     isValid() {
-      if (this.word.english != '' && this.word.russian != '') {
+      if (this.word.popular != '' && this.word.unpopular != '') {
         return true
       }
       return false
@@ -71,10 +71,11 @@ export default {
     async onSubmit() {
       this.isLoading = true
       this.$emit('createOrUpdate', {
+        _id: this.word._id,
         popular: this.capitalizeFirstLetter(this.word.popular),
         unpopular: this.capitalizeFirstLetter(this.word.unpopular),
         description: this.capitalizeFirstLetter(this.word.description),
-        rarity: this.word.rarity
+        popularity: this.word.popularity
       })
       this.isLoading = false
     }
@@ -85,5 +86,8 @@ export default {
 <style lang="scss">
 .input {
   text-transform: capitalize;
+}
+.control::first-letter {
+  text-transform: uppercase;
 }
 </style>

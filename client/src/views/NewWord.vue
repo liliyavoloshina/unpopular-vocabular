@@ -23,7 +23,12 @@ export default {
   name: 'NewWord',
   methods: {
     async createOrUpdate(word) {
-      await postWord(word)
+      const response = await postWord(word)
+      this.$buefy.notification.open({
+        message: 'Word successfully created!',
+        type: 'is-success'
+      })
+      this.$router.push(`/words/${response._id}`)
     }
   }
 }

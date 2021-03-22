@@ -1,24 +1,24 @@
 <template>
   <section class="section">
 
-    <h1 class="title is-size-4">{{word.english}} / {{word.russian}}</h1>
+    <h1 class="title is-size-4">{{word.popular}} / {{word.unpopular}}</h1>
     <div class="columns">
       <div class="column">
-        <b-field label="In English:">
+        <b-field label="Unopular:">
           <p class="control">
             <span class="button is-static">
-              <b-image :src="require('@/assets/images/uk.svg')" alt="English" class="icon-image"></b-image>
+              <b-icon icon="gem" size="is-small" type="is-primary" />
             </span>
           </p>
-          <b-input :value="word.english" readonly></b-input>
+          <b-input :value="word.unpopular" readonly></b-input>
         </b-field>
-        <b-field label="На русском:">
+        <b-field label="Popular synonym:">
           <p class="control">
             <span class="button is-static">
-              <b-image :src="require('@/assets/images/rus.svg')" alt="Русский" class="icon-image"></b-image>
+              <b-icon icon="fire-alt" size="is-small" type="is-danger" />
             </span>
           </p>
-          <b-input :value="word.russian" readonly></b-input>
+          <b-input :value="word.popular" readonly></b-input>
         </b-field>
       </div>
       <div class="column">
@@ -48,10 +48,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.icon-image {
-  width: 30px;
-  height: 30px;
-}
-</style>

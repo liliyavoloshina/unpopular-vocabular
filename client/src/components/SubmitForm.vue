@@ -6,8 +6,7 @@
           <b-icon icon="gem" size="is-small" type="is-primary" />
         </span>
       </p>
-      <b-input v-model="word.unpopular" validation-message="Enter an unpopular word!" placeholder="Unpopular..."
-        type="text" required></b-input>
+      <b-input v-model="word.unpopular" placeholder="Unpopular..." type="text" required></b-input>
     </b-field>
     <b-field label="Popular synonym:">
       <p class="control">
@@ -66,11 +65,25 @@ export default {
     }
   },
   methods: {
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
+    },
     async onSubmit() {
       this.isLoading = true
-      this.$emit('createOrUpdate', this.word)
+      this.$emit('createOrUpdate', {
+        popular: this.capitalizeFirstLetter(this.word.popular),
+        unpopular: this.capitalizeFirstLetter(this.word.unpopular),
+        description: this.capitalizeFirstLetter(this.word.description),
+        rarity: this.word.rarity
+      })
       this.isLoading = false
     }
   }
 }
 </script>
+
+<style lang="scss">
+.input {
+  text-transform: capitalize;
+}
+</style>

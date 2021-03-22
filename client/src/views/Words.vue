@@ -2,30 +2,25 @@
   <section>
     <b-table :data="words" :loading="isLoading" :mobile-cards="true">
 
-      <b-table-column field="english" label="English" v-slot="props">
-        {{ props.row.english }}
+      <b-table-column field="unpopular" label="Unpopular" v-slot="props">
+        {{ props.row.unpopular }}
       </b-table-column>
 
-      <b-table-column field="russian" label="Russian" v-slot="props">
-        {{ props.row.russian }}
+      <b-table-column field="popular" label="Popular" v-slot="props">
+        {{ props.row.popular }}
       </b-table-column>
 
-      <b-table-column label="Rarity" v-slot="props">
-        <span>
-          <b-icon icon="percentage" :type="props.row.rarity === 'high' ? 'is-success' : 'is-danger'"></b-icon>
-          {{ props.row.rarity }}
-        </span>
+      <b-table-column field="rarity" label="Rarity" v-slot="props">
+        {{ props.row.rarity }}
       </b-table-column>
 
-      <b-table-column field="author" v-slot="props">
+      <b-table-column v-slot="props">
         <div class="buttons is-pulled-right">
           <b-button tag="router-link" :to="{name: 'SingleWord',  params: {id: props.row._id}}" type="is-primary"
             icon-right="info" size="is-small" />
           <b-button type="is-warning" icon-right="pen" size="is-small" />
           <b-button @click="destroyWord(props.row._id)" type="is-danger" icon-right="trash" size="is-small" />
         </div>
-
-        {{props.row.author}}
       </b-table-column>
 
     </b-table>

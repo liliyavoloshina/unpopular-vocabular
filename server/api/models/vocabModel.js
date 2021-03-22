@@ -2,13 +2,13 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 const VocabSchema = new Schema(
   {
-    english: {
+    popular: {
       type: String,
-      required: 'English word cannot be blank'
+      required: 'Popular word cannot be blank'
     },
-    russian: {
+    unpopular: {
       type: String,
-      required: 'Russian word cannot be blank'
+      required: 'Unpopular word cannot be blank'
     },
     description: {
       type: String

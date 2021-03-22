@@ -1,22 +1,21 @@
 <template>
   <form ref="form" @submit.prevent="onSubmit" action="#">
-    <b-field label="In English:">
+    <b-field label="Unpopular:">
       <p class="control">
         <span class="button is-static">
-          <b-image :src="require('@/assets/images/uk.svg')" alt="English" class="icon-image"></b-image>
+          <b-icon icon="gem" size="is-small" type="is-primary" />
         </span>
       </p>
-      <b-input v-model="word.english" validation-message="Enter a word in English!" pattern="[a-zA-Z]*"
-        placeholder="In English..." type="text" required></b-input>
+      <b-input v-model="word.unpopular" validation-message="Enter an unpopular word!" placeholder="Unpopular..."
+        type="text" required></b-input>
     </b-field>
-    <b-field label="На русском:">
+    <b-field label="Popular synonym:">
       <p class="control">
         <span class="button is-static">
-          <b-image :src="require('@/assets/images/rus.svg')" alt="Русский" class="icon-image"></b-image>
+          <b-icon icon="fire-alt" size="is-small" type="is-danger" />
         </span>
       </p>
-      <b-input v-model="word.russian" validation-message="Введите слово на русском!" pattern="[а-яА-я]*"
-        placeholder="На русском..." type="text" required></b-input>
+      <b-input v-model="word.popular" placeholder="Popular..." type="text" required></b-input>
     </b-field>
 
     <b-field label="Description:">
@@ -25,12 +24,12 @@
 
     <b-field label="Rarity:">
       <b-select v-model="word.rarity">
-        <option value="high">Very rare</option>
-        <option value="low" selected>Not very rare</option>
+        <option value="high" selected>Very rare</option>
+        <option value="low">Not very rare</option>
       </b-select>
     </b-field>
 
-    <div class="buttons">
+    <div class="buttons mt-5">
       <b-button @click.prevent="onSubmit" type="is-primary" :disabled="!isValid" :loading="isLoading">Submit</b-button>
     </div>
   </form>
@@ -45,8 +44,8 @@ export default {
       required: false,
       default: () => {
         return {
-          english: '',
-          russian: '',
+          popular: '',
+          unpopular: '',
           description: '',
           rarity: 'high'
         }
@@ -60,18 +59,10 @@ export default {
   },
   computed: {
     isValid() {
-      if (
-        this.word.english != '' &&
-        this.word.russian != '' &&
-        /^[a-zA-Z]+$/.test(this.word.english) &&
-        /^[а-яА-Я]+$/.test(this.word.russian)
-      ) {
+      if (this.word.english != '' && this.word.russian != '') {
         return true
       }
       return false
-    },
-    valid() {
-      return /^[а-я]+$/.test(this.word.russian)
     }
   },
   methods: {
@@ -83,10 +74,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.icon-image {
-  width: 30px;
-  height: 30px;
-}
-</style>

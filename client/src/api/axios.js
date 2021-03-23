@@ -1,5 +1,5 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:3000/'
+axios.defaults.baseURL = 'https://unpopular-vocabular.herokuapp.com/'
 
 export default axios

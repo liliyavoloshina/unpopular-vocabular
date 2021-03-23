@@ -1,4 +1,5 @@
-const vocabBuilder = require('../controllers/vocabController')
+const path = require('path')
+const vocabBuilder = require(path.join(__dirname, '../controllers/vocabController'))
 module.exports = (app) => {
   app
     .route('/words')

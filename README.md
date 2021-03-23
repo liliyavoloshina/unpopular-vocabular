@@ -1,5 +1,6 @@
 # Unpopular Vocabular
 
-A simple MEVN application that allows you to create, read, delete and update words from the dictionary and take tests.  
+CRUD App with Vue.js frontend, Node backend and MongoDB database.  
+Designed with Bulma and hosting by Heroku.
 
 DEMO: https://unpopular-vocabular.herokuapp.com/

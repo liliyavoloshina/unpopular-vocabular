@@ -2,7 +2,6 @@
   <section class="section">
 
     <div v-if="!isShowTest" class="container">
-
       <h1 class="is-size-5 has-text-centered">Check your knowledge of unpopular words!</h1>
       <div class="columns is-centered mt-4">
         <div class="column is-half">
@@ -14,7 +13,7 @@
           </b-field>
           <b-field label="Сhoose the number of words">
             <b-numberinput v-model="number" :min="1" :max="maxLength" class="has-addons-centered"
-              controls-position="compact" type="is-dark" placeholder="5" expanded></b-numberinput>
+              controls-position="compact" type="is-dark" expanded></b-numberinput>
           </b-field>
           <b-button @click="startTest" class="is-size-5 mt-5" type="is-primary" expanded>Start!</b-button>
         </div>
@@ -38,7 +37,7 @@ export default {
   data() {
     return {
       words: [],
-      number: 5,
+      number: 1,
       difficulty: 'high',
       isShowTest: false,
       isLoading: false
@@ -46,11 +45,12 @@ export default {
   },
   computed: {
     maxLength() {
-      return this.words.length
+      const selectedDiff = this.words.filter((word) => word.popularity === this.difficulty)
+      return selectedDiff.length
     },
     selectedWords() {
       return this.words
-        .filter(word => word.popularity === this.difficulty)
+        .filter((word) => word.popularity === this.difficulty)
         .slice(0, this.number)
     }
   },

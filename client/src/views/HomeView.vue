@@ -4,11 +4,10 @@
     So what to do with these unpopular 40 thousand words? I decided to add them to a special dictionary. Here, rare,
     unpopular words are paired with their more popular synonyms.
   </section>
-  
 </template>
 
 <script>
 export default {
-  name: 'Home'
-}
+  name: 'HomeView',
+};
 </script>

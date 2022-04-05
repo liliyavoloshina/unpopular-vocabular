@@ -1,46 +1,46 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home')
+    component: () => import('../views/HomeView.vue'),
   },
   {
     path: '/words',
     name: 'Words',
-    component: () => import('../views/Words')
+    component: () => import('../views/WordsView.vue'),
   },
   {
     path: '/create',
     name: 'NewWord',
-    component: () => import('../views/NewWord')
+    component: () => import('../views/NewWord.vue'),
   },
   {
     path: '/words/:id',
     name: 'SingleWord',
-    component: () => import('../views/SingleWord')
+    component: () => import('../views/SingleWord.vue'),
   },
   {
     path: '/words/:id/edit',
     name: 'EditWord',
-    component: () => import('../views/EditWord')
+    component: () => import('../views/EditWord.vue'),
   },
   {
     path: '/test',
     name: 'Test',
-    component: () => import('../views/Test')
-  }
-]
+    component: () => import('../views/TestView.vue'),
+  },
+];
 
 const router = new VueRouter({
   mode: 'history',
   linkActiveClass: 'is-active',
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

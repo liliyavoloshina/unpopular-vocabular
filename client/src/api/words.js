@@ -2,8 +2,8 @@ import axios from './axios'
 import {errorCatcher} from '../helpers/helpers'
 
 const getWords = errorCatcher(async () => {
-	const response = await axios.get(`words`)
-	return response.data
+	const response = await axios.get(`/words`)
+	return response.data.words
 })
 
 const postWord = errorCatcher(async payload => {

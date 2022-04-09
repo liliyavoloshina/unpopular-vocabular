@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { putWord, getWord } from '../api/words'
+import { updateWord, getWord } from '../api/words'
 import SubmitForm from '../components/SubmitForm'
 
 export default {
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     async createOrUpdate(word) {
-      await putWord(word)
+      await updateWord(word)
       this.$buefy.toast.open({
         message: 'Word successfully edited!',
         type: 'is-success'

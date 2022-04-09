@@ -10,6 +10,16 @@ export const getWord = async (req, res) => {
   res.status(200).json({ word })
 }
 
+export const updateWord = async (req, res) => {
+  console.log('req.body', req.body)
+  const word = await Word.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  })
+
+  res.status(200).json({ word })
+}
+
 export const createNewWord = async (req, res) => {
   const newWord = await Word.create(req.body)
 

@@ -11,6 +11,11 @@ export const getWord = errorCatcher(async payload => {
   return response.data.word
 })
 
+export const updateWord = errorCatcher(async payload => {
+  const response = await axios.patch(`/words/${payload._id}`, payload)
+  return response.data
+})
+
 const postWord = errorCatcher(async payload => {
   const response = await axios.post('/words', payload)
   return response.data
@@ -20,9 +25,5 @@ const deleteWord = errorCatcher(async payload => {
   const response = await axios.delete(`words/${payload}`)
   return response.data
 })
-const putWord = errorCatcher(async payload => {
-  const response = await axios.put(`words/${payload._id}`, payload)
-  return response.data
-})
 
-export { postWord, deleteWord, putWord }
+export { postWord, deleteWord }

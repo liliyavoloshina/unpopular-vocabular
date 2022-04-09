@@ -1,12 +1,12 @@
-const express = require('express')
+import cors from 'cors'
+
+import express from 'express'
+
+import wordsRouter from './routes/words.js'
 
 const app = express()
-
-const cors = require('cors')
-
-const wordsRouter = require('./routes/words')
 
 app.use(cors())
 app.use('/api/v1/words', wordsRouter)
 
-module.exports = app
+export default app

@@ -1,10 +1,10 @@
-const dotenv = require('dotenv')
+import dotenv from 'dotenv'
+
+import mongoose from 'mongoose'
+
+import app from './app.js'
 
 dotenv.config({ path: './.env' })
-
-const mongoose = require('mongoose')
-
-const app = require('./app')
 
 const db = `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@cluster0.oedfl.mongodb.net/${process.env.DATABASE_NAME}?retryWrites=true&w=majority`
 mongoose.connect(db, { useNewUrlParser: true })

@@ -1,21 +1,21 @@
-import Vue from 'vue';
-import Buefy from 'buefy';
+import Vue from 'vue'
+import Buefy from 'buefy'
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import router from './router';
-import App from './App.vue';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import router from './router'
+import App from './App.vue'
 
-library.add(fas);
-Vue.component('VueFontawesome', FontAwesomeIcon);
+library.add(fas)
+Vue.component('VueFontawesome', FontAwesomeIcon)
 Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',
-  defaultIconPack: 'fas',
-});
+  defaultIconPack: 'fas'
+})
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false
 new Vue({
   router,
-  render: (h) => h(App),
-}).$mount('#app');
+  render: h => h(App)
+}).$mount('#app')

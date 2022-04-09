@@ -1,9 +1,10 @@
-const express = require('express')
+import express from 'express'
+
+import { getWords, getWord } from '../controllers/words.js'
 
 const router = express.Router()
 
-const { getWords } = require('../controllers/words')
-
 router.route('/').get(getWords)
+router.route('/:id').get(getWord)
 
-module.exports = router
+export default router

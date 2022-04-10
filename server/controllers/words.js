@@ -11,7 +11,6 @@ export const getWord = async (req, res) => {
 }
 
 export const updateWord = async (req, res) => {
-  console.log('req.body', req.body)
   const word = await Word.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -21,7 +20,13 @@ export const updateWord = async (req, res) => {
 }
 
 export const createNewWord = async (req, res) => {
-  const newWord = await Word.create(req.body)
+  const word = await Word.create(req.body)
 
-  res.status(201).json({ newWord })
+  res.status(200).json({ word })
+}
+
+export const deleteWord = async (req, res) => {
+  const word = await Word.findByIdAndDelete(req.params.id)
+
+  res.status(201).json({ word })
 }

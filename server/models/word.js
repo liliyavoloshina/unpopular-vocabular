@@ -23,7 +23,8 @@ const wordSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, 'Description is required'],
+    min: [10, 'Decsription must be longer than 10'],
+    max: [100, 'Decsription must be less than 100'],
   },
 })
 

@@ -1,20 +1,11 @@
 <template>
   <form action="#" @submit.prevent="onSubmit">
     <b-field label="Unpopular:">
-      <p class="control">
-        <span class="button is-static">
-          <b-icon icon="gem" size="is-small" type="is-primary" />
-        </span>
-      </p>
-      <b-input v-model="word.unpopular" placeholder="Unpopular..." type="text" required />
+      <b-input v-model="word.unpopular" icon="gem" placeholder="Unpopular..." type="text" required validation-message="This field is required" />
     </b-field>
+
     <b-field label="Popular synonym:">
-      <p class="control">
-        <span class="button is-static">
-          <b-icon icon="fire-alt" size="is-small" type="is-danger" />
-        </span>
-      </p>
-      <b-input v-model="word.popular" placeholder="Popular..." type="text" required />
+      <b-input v-model="word.popular" icon="fire-alt" placeholder="Popular..." type="text" required validation-message="This field is required" />
     </b-field>
 
     <b-field label="Description:">
@@ -46,7 +37,10 @@ export default {
   props: {
     word: {
       type: Object,
-      required: true
+      required: false,
+      default() {
+        return { popular: '', unpopular: '', description: '', popularity: 'low' }
+      }
     }
   },
   data() {

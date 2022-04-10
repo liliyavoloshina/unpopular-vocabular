@@ -4,7 +4,6 @@
   "description": "Backend for unpopular-vocabular project",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
     "serve": "nodemon ./server server.js"
   },
   "keywords": [],

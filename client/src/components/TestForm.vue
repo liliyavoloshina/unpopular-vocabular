@@ -18,7 +18,7 @@
                 <b-icon icon="fire-alt" size="is-small" type="is-danger" />
               </span>
             </p>
-            <b-input v-model="popular" placeholder="Popular..." type="text" required expanded />
+            <b-input v-model="popular" placeholder="Popular..." type="text" required expanded validation-message="This field is required" />
           </b-field>
 
           <b-button v-if="currentWord.description" type="is-danger" @click.prevent="showTip">

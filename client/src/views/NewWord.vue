@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { postWord } from '../api/words'
+import { createWord } from '../api/words'
 import SubmitForm from '../components/SubmitForm'
 
 export default {
@@ -27,12 +27,12 @@ export default {
   components: { SubmitForm },
   methods: {
     async createOrUpdate(word) {
-      const response = await postWord(word)
+      const response = await createWord(word)
       this.$buefy.toast.open({
         message: 'Word successfully created!',
         type: 'is-success'
-      }),
-        this.$router.push(`/words/${response._id}`)
+      })
+      this.$router.push(`/words/${response.word._id}`)
     }
   }
 }

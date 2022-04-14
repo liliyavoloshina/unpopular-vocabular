@@ -1,29 +1,32 @@
 // Set variables to overwrite Buefy
 @import url('https://fonts.googleapis.com/css2?family=Pangolin&display=swap');
 $family-sans-serif: 'Pangolin', cursive;
-.textarea {
-	resize: none !important;
+
+html,
+body,
+#app {
+  height: 100%;
 }
 
 body::-webkit-scrollbar,
 textarea::-webkit-scrollbar,
 textarea::-webkit-scrollbar-track,
 body::-webkit-scrollbar-track {
-	display: none;
+  display: none;
+}
+
+.textarea {
+  resize: none !important;
 }
 
 $section-padding: 2rem 1.5rem;
 
 $footer-padding: 2rem 1.5rem;
 .has-text-pink {
-	color: pink;
-	&:hover {
-		color: rgb(250, 15, 250);
-	}
-}
-
-.container-main {
-	min-height: 100vh;
+  color: pink;
+  &:hover {
+    color: rgb(250, 15, 250);
+  }
 }
 
 // Import Bulma's core

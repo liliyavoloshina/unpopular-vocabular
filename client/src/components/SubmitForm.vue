@@ -24,7 +24,7 @@
     </b-field>
 
     <div class="buttons mt-5">
-      <b-button type="is-primary" :disabled="!isValid" :loading="isLoading" @click.prevent="onSubmit">
+      <b-button type="is-primary" :disabled="!isValid" :loading="isLoading" native-type="submit">
         Submit
       </b-button>
     </div>

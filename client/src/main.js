@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Buefy from 'buefy'
+import Vuelidate from 'vuelidate'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -13,8 +14,9 @@ Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',
   defaultIconPack: 'fas'
 })
-
+Vue.use(Vuelidate)
 Vue.config.productionTip = false
+
 new Vue({
   router,
   render: h => h(App)

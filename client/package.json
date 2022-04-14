@@ -14,10 +14,11 @@
     "@rushstack/eslint-patch": "^1.1.1",
     "@vue/eslint-config-prettier": "^7.0.0",
     "axios": "^0.21.1",
-    "buefy": "^0.9.4",
+    "buefy": "^0.9.19",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vuelidate": "^0.7.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -3,8 +3,8 @@
     <div class="hero-body">
       <div class="container is-max-desktop">
         <div class="column is-half is-offset-one-quarter">
-          <form class="box" novalidate @submit.prevent="onSignup">
-            <h1 class="is-size-3 has-text-centered my-2">Sign Up</h1>
+          <form class="box" novalidate @submit.prevent="onSignin">
+            <h1 class="is-size-3 has-text-centered my-2">Sign In</h1>
             <b-field
               label="Email"
               :type="{ 'is-danger': $v.email.$error }"
@@ -24,29 +24,9 @@
               <b-input v-model.trim="$v.password.$model" icon="lock" placeholder="123456" type="password"></b-input>
             </b-field>
 
-            <b-field
-              label="Repeat password"
-              :type="{ 'is-danger': $v.repeatPassword.$error }"
-              :message="{
-                'Please repeat password': !$v.repeatPassword.required && $v.repeatPassword.$error,
-                'Passwords must be identical': !$v.password.sameAsPassword && $v.repeatPassword.$error
-              }"
-            >
-              <b-input v-model.trim="$v.repeatPassword.$model" icon="lock" placeholder="123456" type="password" password-reveal></b-input>
-            </b-field>
-
-            <b-field
-              :type="{ 'is-danger': $v.agreement.$error }"
-              :message="{
-                'Please agree': !$v.agreement.sameAs && $v.agreement.$error
-              }"
-            >
-              <b-checkbox v-model="$v.agreement.$model">I agree to the <a href="#" class="is-underlined has-text-primary">terms and conditions</a></b-checkbox>
-            </b-field>
-
             <div class="buttons is-flex-direction-column is-centered mt-5">
-              <b-button type="is-primary" class="m-0" native-type="submit" :disabled="submitStatus === 'PENDING'">Signup</b-button>
-              <router-link :to="{ name: 'Signin' }" class="button is-ghost">Already registered?</router-link>
+              <b-button type="is-primary" class="m-0" native-type="submit" :disabled="submitStatus === 'PENDING'">Signin</b-button>
+              <router-link :to="{ name: 'Signup' }" class="button is-ghost">Don't have an account?</router-link>
             </div>
           </form>
         </div>
@@ -64,8 +44,6 @@ export default {
     return {
       email: '',
       password: '',
-      repeatPassword: '',
-      agreement: true,
       isLoading: false,
       submitStatus: null
     }
@@ -78,18 +56,10 @@ export default {
     password: {
       required,
       minLength: minLength(6)
-    },
-    repeatPassword: {
-      required,
-      sameAsPassword: sameAs('password')
-    },
-    agreement: {
-      required,
-      sameAs: sameAs(() => true)
     }
   },
   methods: {
-    async onSignup() {
+    async onSignin() {
       this.isLoading = true
       this.$v.$touch()
       if (this.$v.$invalid) {

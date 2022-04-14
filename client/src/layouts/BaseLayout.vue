@@ -1,31 +1,44 @@
 <template>
-  <div class="main">
-    <the-navbar />
-    <div class="container container-main">
+  <div class="base-wrapper">
+    <the-navbar class="base-navbar" />
+    <div class="container base-content">
       <router-view />
     </div>
-
-    <footer class="footer has-background-dark">
-      <div class="content has-text-centered">
-        <p>
-          UnpopularVocabular by <a class="has-text-pink" href="https://github.com/liliyavoloshina">Liliya Voloshina</a> <br />
-          This project is open-source and for educational purposes only <br />
-          Branch on GitHub: <a class="has-text-warning" href="https://github.com/liliyavoloshina/unpopular-vocabular">UnpopularVocabular</a>
-        </p>
-      </div>
-    </footer>
+    <the-footer class="base-footer" />
   </div>
 </template>
 
 <script>
-import TheNavbar from '../components/UI/TheNavbar'
+import TheNavbar from '@/components/UI/TheNavbar'
+import TheFooter from '@/components/UI/TheFooter'
 
 export default {
   name: 'BaseLayout',
   components: {
-    TheNavbar
+    TheNavbar,
+    TheFooter
   }
 }
 </script>
 
 <style src="@/assets/styles.scss" lang="scss"></style>
+
+<style>
+.base-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.base-navbar {
+  flex: 0 0 auto;
+}
+
+.base-content {
+  flex: 1 0 auto;
+}
+
+.base-footer {
+  flex: 0 0 auto;
+}
+</style>

@@ -6,33 +6,52 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import('../views/HomeView.vue')
+    redirect: { name: 'Home' },
+    component: () => import('@/layouts/BaseLayout.vue'),
+    children: [
+      {
+        path: '/home',
+        name: 'Home',
+        component: () => import('@/views/HomeView.vue')
+      },
+      {
+        path: '/words',
+        name: 'Words',
+        component: () => import('@/views/WordsView.vue')
+      },
+      {
+        path: '/create',
+        name: 'NewWord',
+        component: () => import('@/views/NewWord.vue')
+      },
+      {
+        path: '/words/:id',
+        name: 'SingleWord',
+        component: () => import('@/views/SingleWord.vue')
+      },
+      {
+        path: '/words/:id/edit',
+        name: 'EditWord',
+        component: () => import('@/views/EditWord.vue')
+      },
+      {
+        path: '/test',
+        name: 'Test',
+        component: () => import('@/views/TestView.vue')
+      }
+    ]
   },
   {
-    path: '/words',
-    name: 'Words',
-    component: () => import('../views/WordsView.vue')
-  },
-  {
-    path: '/create',
-    name: 'NewWord',
-    component: () => import('../views/NewWord.vue')
-  },
-  {
-    path: '/words/:id',
-    name: 'SingleWord',
-    component: () => import('../views/SingleWord.vue')
-  },
-  {
-    path: '/words/:id/edit',
-    name: 'EditWord',
-    component: () => import('../views/EditWord.vue')
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    component: () => import('../views/TestView.vue')
+    path: '/auth',
+    redirect: { name: 'Signup' },
+    component: () => import('@/layouts/AuthLayout.vue'),
+    children: [
+      {
+        path: '/signup',
+        name: 'Signup',
+        component: () => import('../views/auth/SignupView.vue')
+      }
+    ]
   }
 ]
 

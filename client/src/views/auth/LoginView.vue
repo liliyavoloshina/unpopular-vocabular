@@ -14,13 +14,20 @@
             </b-field>
 
             <b-field
-              label="Password"
               :type="{ 'is-danger': $v.password.$error }"
               :message="{
                 'Password is required': !$v.password.required && $v.password.$error,
                 'Password must have at least 6 letters': !$v.password.minLength && $v.password.$error
               }"
             >
+              <template #label>
+                <div class="is-flex is-justify-content-space-between is-align-items-center">
+                  <span>
+                    Password
+                  </span>
+                  <router-link :to="{ name: 'ForgotPassword' }" class="button is-ghost p-0 has-text-weight-normal" style="height: 0;">Forgot the password?</router-link>
+                </div>
+              </template>
               <b-input v-model.trim="$v.password.$model" icon="lock" placeholder="123456" type="password"></b-input>
             </b-field>
 

@@ -2,6 +2,7 @@ import { promisify } from 'util'
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
 import { errorCatcher, ErrorHandler } from '../utils/error.js'
+import { sendEmail } from '../utils/email.js'
 
 const createAndSendToken = (user, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
@@ -83,4 +84,35 @@ export const protect = errorCatcher(async (req, res, next) => {
   req.user = user
 
   next()
+})
+
+export const forgotPassword = errorCatcher(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email })
+
+  if (!user) {
+    return next(new ErrorHandler('User with this email does not exist', 404))
+  }
+
+  const resetToken = user.createPasswordResetToken()
+
+  await user.save({ validateBeforeSave: false })
+
+  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://unpopular-vocabular.herokuapp.com'
+
+  const resetUrl = `${url}/reset-password/${resetToken}`
+
+  try {
+    await sendEmail({ email: user.email, subject: 'Resetting Password', resetUrl })
+
+    res.status(200).json({
+      message: 'Token sent to email',
+    })
+  } catch (err) {
+    user.passwordResetToken = undefined
+    user.passwordResetExpires = undefined
+
+    await user.save({ validateBeforeSave: false })
+
+    return next(new ErrorHandler('There was an error sending your email. Try later', 500))
+  }
 })

@@ -1,15 +1,9 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
+import { errorCatcher, ErrorHandler } from '../utils/error.js'
 
-// eslint-disable-next-line import/prefer-default-export
-export const signup = async (req, res) => {
-  const newUser = await User.create({
-    email: req.body.email,
-    password: req.body.password,
-    name: req.body.name,
-  })
-
-  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET)
+const createAndSendToken = (user, res) => {
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
   const cookieOptions = {
     expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
@@ -22,11 +16,43 @@ export const signup = async (req, res) => {
 
   res.cookie('jwt', token, cookieOptions)
 
-  newUser.password = undefined
+  user.password = undefined
 
-  res.status(201).json({
+  res.status(200).json({
     status: 'success',
     token,
-    data: { newUser },
+    data: { user },
   })
 }
+
+export const signup = errorCatcher(async (req, res) => {
+  const newUser = await User.create({
+    email: req.body.email,
+    password: req.body.password,
+    name: req.body.name,
+  })
+
+  createAndSendToken(newUser, res)
+})
+
+export const signin = errorCatcher(async (req, res, next) => {
+  const { email, password } = req.body
+
+  if (!email || !password) {
+    return next(new ErrorHandler(`Please provide email and password`, 400))
+  }
+
+  const user = await User.findOne({ email }).select('+password')
+
+  if (!user) {
+    return next(new ErrorHandler(`User with this email does not exist`, 401))
+  }
+
+  const isCorrect = await user.checkPassword(password, user.password)
+
+  if (!isCorrect) {
+    return next(new ErrorHandler(`Incorrect email or password`, 401))
+  }
+
+  createAndSendToken(user, res)
+})

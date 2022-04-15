@@ -50,7 +50,7 @@
 
             <div class="buttons is-flex-direction-column is-centered mt-5">
               <b-button type="is-primary" class="m-0" native-type="submit" :disabled="submitStatus === 'PENDING'">Signup</b-button>
-              <router-link :to="{ name: 'Signin' }" class="button is-ghost">Already registered?</router-link>
+              <router-link :to="{ name: 'Login' }" class="button is-ghost">Already registered?</router-link>
             </div>
           </form>
         </div>
@@ -112,6 +112,12 @@ export default {
           const res = await signup({ name: this.name, email: this.email, password: this.password })
           setUser(res.user)
           setToken(res.token)
+
+          if (redirectLink) {
+            this.$router.push({ path: redirectLink })
+          } else {
+            this.$router.push({ name: 'Home' })
+          }
         } catch (e) {}
 
         this.submitStatus = 'OK'

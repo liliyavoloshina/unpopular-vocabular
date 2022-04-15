@@ -3,14 +3,14 @@
     <div class="hero-body">
       <div class="container is-max-desktop">
         <div class="column is-half is-offset-one-quarter">
-          <form class="box" novalidate @submit.prevent="onSignin">
-            <h1 class="is-size-3 has-text-centered my-2">Sign In</h1>
+          <form class="box" novalidate @submit.prevent="onLogin">
+            <h1 class="is-size-3 has-text-centered my-2">Log in</h1>
             <b-field
               label="Email"
               :type="{ 'is-danger': $v.email.$error }"
               :message="{ 'Email is required': !$v.email.required && $v.email.$error, 'Email format is invalid': !$v.email.email && $v.email.$error }"
             >
-              <b-input v-model.trim="$v.email.$model" icon="envelope" type="email" placeholder="janedoe@gmail.com"></b-input>
+              <b-input v-model.trim="$v.email.$model" custom-class="is-lowercase" icon="envelope" type="email" placeholder="janedoe@gmail.com"></b-input>
             </b-field>
 
             <b-field
@@ -25,7 +25,7 @@
             </b-field>
 
             <div class="buttons is-flex-direction-column is-centered mt-5">
-              <b-button type="is-primary" class="m-0" native-type="submit" :disabled="submitStatus === 'PENDING'">Signin</b-button>
+              <b-button type="is-primary" class="m-0" native-type="submit" :disabled="submitStatus === 'PENDING'">Login</b-button>
               <router-link :to="{ name: 'Signup' }" class="button is-ghost">Don't have an account?</router-link>
             </div>
           </form>
@@ -41,7 +41,7 @@ import { signin } from '@/api/user'
 import { setUser, setToken } from '@/helpers/localStorage'
 
 export default {
-  name: 'SigninView',
+  name: 'LoginView',
   data() {
     return {
       email: '',
@@ -61,7 +61,7 @@ export default {
     }
   },
   methods: {
-    async onSignin() {
+    async onLogin() {
       this.isLoading = true
       this.$v.$touch()
 
@@ -74,7 +74,14 @@ export default {
           const res = await signin({ email: this.email, password: this.password })
           setUser(res.user)
           setToken(res.token)
-          this.$router.push({ name: 'Home' })
+
+          const redirectLink = this.$route.query.redirect
+
+          if (redirectLink) {
+            this.$router.push({ path: redirectLink })
+          } else {
+            this.$router.push({ name: 'Home' })
+          }
         } catch (e) {}
 
         this.submitStatus = 'OK'

@@ -2,9 +2,14 @@ import Vue from 'vue'
 import Buefy from 'buefy'
 import Vuelidate from 'vuelidate'
 
+/* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
+
+/* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 import { fas } from '@fortawesome/free-solid-svg-icons'
+
 import router from './router'
 import App from './App.vue'
 

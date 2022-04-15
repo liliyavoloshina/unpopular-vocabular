@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { getUser } from '../helpers/localStorage'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,12 @@ const routes = [
         component: () => import('@/views/HomeView.vue')
       },
       {
+        path: '/user/:id',
+        name: 'User',
+        component: () => import('@/views/UserView.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
         path: '/words',
         name: 'Words',
         component: () => import('@/views/WordsView.vue')
@@ -22,7 +29,8 @@ const routes = [
       {
         path: '/create',
         name: 'NewWord',
-        component: () => import('@/views/NewWord.vue')
+        component: () => import('@/views/NewWord.vue'),
+        meta: { requiresAuth: true }
       },
       {
         path: '/words/:id',
@@ -52,9 +60,9 @@ const routes = [
         component: () => import('../views/auth/SignupView.vue')
       },
       {
-        path: '/signin',
-        name: 'Signin',
-        component: () => import('../views/auth/SigninView.vue')
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/auth/LoginView.vue')
       }
     ]
   }
@@ -65,6 +73,17 @@ const router = new VueRouter({
   linkActiveClass: 'is-active',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !getUser() && to.name !== 'Signup' && to.name !== 'Login') {
+    next({
+      name: 'Login',
+      query: { redirect: to.fullPath }
+    })
+  } else {
+    next()
+  }
 })
 
 export default router

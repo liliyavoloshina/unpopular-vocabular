@@ -5,6 +5,10 @@
         <div class="column is-half is-offset-one-quarter">
           <form class="box" novalidate @submit.prevent="onSignup">
             <h1 class="is-size-3 has-text-centered my-2">Sign Up</h1>
+            <b-field label="Name" :type="{ 'is-danger': $v.name.$error }" :message="{ 'Name is required': !$v.name.required && $v.name.$error }">
+              <b-input v-model.trim="$v.name.$model" icon="user" type="email" placeholder="Jane"></b-input>
+            </b-field>
+
             <b-field
               label="Email"
               :type="{ 'is-danger': $v.email.$error }"
@@ -57,11 +61,13 @@
 
 <script>
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators'
+import { signup } from '@/api/user'
 
 export default {
   name: 'SignupView',
   data() {
     return {
+      name: '',
       email: '',
       password: '',
       repeatPassword: '',
@@ -71,6 +77,9 @@ export default {
     }
   },
   validations: {
+    name: {
+      required
+    },
     email: {
       required,
       email
@@ -95,10 +104,10 @@ export default {
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
       } else {
-        this.submitStatus = 'PENDING'
-        setTimeout(() => {
-          this.submitStatus = 'OK'
-        }, 500)
+        // this.submitStatus = 'PENDING'
+        const user = await signup({ name: this.name, email: this.email, password: this.password })
+        // console.log(user)
+        this.submitStatus = 'OK'
       }
     }
   }

@@ -41,12 +41,15 @@ export default {
   },
   methods: {
     async createOrUpdate(word) {
-      await updateWord(word)
-      this.$buefy.toast.open({
-        message: 'Word successfully edited!',
-        type: 'is-success'
-      }),
+      try {
+        await updateWord(word)
+        this.$buefy.toast.open({
+          message: 'Word successfully edited!',
+          type: 'is-success'
+        })
+
         this.$router.push(`/words/${word._id}`)
+      } catch (e) {}
     }
   }
 }

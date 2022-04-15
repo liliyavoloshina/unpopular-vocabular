@@ -1,3 +1,4 @@
+import { promisify } from 'util'
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
 import { errorCatcher, ErrorHandler } from '../utils/error.js'
@@ -18,7 +19,7 @@ const createAndSendToken = (user, res) => {
 
   user.password = undefined
 
-  res.status(200).json({ user })
+  res.status(200).json({ user, token })
 }
 
 export const signup = errorCatcher(async (req, res, next) => {
@@ -57,4 +58,29 @@ export const signin = errorCatcher(async (req, res, next) => {
   }
 
   createAndSendToken(user, res)
+})
+
+export const protect = errorCatcher(async (req, res, next) => {
+  const headers = req.headers.authorization
+  let token
+
+  if (headers && headers.startsWith('Bearer')) {
+    token = headers.split(' ')[1]
+  }
+
+  if (!token) {
+    return next(new ErrorHandler(`You are not authorized. Please login to proceed`, 401))
+  }
+
+  const decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+
+  const user = await User.findById(decodedToken.id)
+
+  if (!user) {
+    return next(new ErrorHandler(`The user with this token does not longer exist`, 401))
+  }
+
+  req.user = user
+
+  next()
 })

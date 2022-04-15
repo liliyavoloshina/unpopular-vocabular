@@ -75,14 +75,17 @@ export default {
         confirmText: 'Delete Word',
         type: 'is-danger',
         hasIcon: true,
+
         onConfirm: async () => {
-          await deleteWord(id)
-          const newWords = this.words.filter(word => word._id !== id)
-          this.words = newWords
-          this.$buefy.toast.open({
-            message: 'Word successfully deleted!',
-            type: 'is-success'
-          })
+          try {
+            await deleteWord(id)
+            const newWords = this.words.filter(word => word._id !== id)
+            this.words = newWords
+            this.$buefy.toast.open({
+              message: 'Word successfully deleted!',
+              type: 'is-success'
+            })
+          } catch (e) {}
         }
       })
     }

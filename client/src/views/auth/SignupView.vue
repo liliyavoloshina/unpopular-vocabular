@@ -62,6 +62,7 @@
 <script>
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators'
 import { signup } from '@/api/user'
+import { setUser, setToken } from '@/helpers/localStorage'
 
 export default {
   name: 'SignupView',
@@ -108,8 +109,9 @@ export default {
         this.submitStatus = 'PENDING'
 
         try {
-          const user = await signup({ name: this.name, email: this.email, password: this.password })
-          console.log(user)
+          const res = await signup({ name: this.name, email: this.email, password: this.password })
+          setUser(res.user)
+          setToken(res.token)
         } catch (e) {}
 
         this.submitStatus = 'OK'

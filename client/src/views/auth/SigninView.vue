@@ -37,9 +37,10 @@
 
 <script>
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators'
+import { signin } from '@/api/user'
 
 export default {
-  name: 'SignupView',
+  name: 'SigninView',
   data() {
     return {
       email: '',
@@ -62,13 +63,18 @@ export default {
     async onSignin() {
       this.isLoading = true
       this.$v.$touch()
+
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
       } else {
         this.submitStatus = 'PENDING'
-        setTimeout(() => {
-          this.submitStatus = 'OK'
-        }, 500)
+
+        try {
+          const user = await signin({ email: this.email, password: this.password })
+          console.log(user)
+        } catch (e) {}
+
+        this.submitStatus = 'OK'
       }
     }
   }

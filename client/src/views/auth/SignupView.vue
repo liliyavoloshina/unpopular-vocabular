@@ -101,12 +101,17 @@ export default {
     async onSignup() {
       this.isLoading = true
       this.$v.$touch()
+
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR'
       } else {
-        // this.submitStatus = 'PENDING'
-        const user = await signup({ name: this.name, email: this.email, password: this.password })
-        // console.log(user)
+        this.submitStatus = 'PENDING'
+
+        try {
+          const user = await signup({ name: this.name, email: this.email, password: this.password })
+          console.log(user)
+        } catch (e) {}
+
         this.submitStatus = 'OK'
       }
     }

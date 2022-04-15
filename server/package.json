@@ -4,8 +4,12 @@
   "description": "server side",
   "main": "server.js",
   "type": "module",
+  "engines": {
+    "node": ">=8.3.0"
+  },
   "scripts": {
-    "serve": "nodemon ./server server.js"
+    "serve": "SET NODE_ENV=development& nodemon ./server server.js",
+    "serve:prod": "SET NODE_ENV=production& nodemon ./server server.js"
   },
   "author": "Liliya Voloshina",
   "license": "ISC",

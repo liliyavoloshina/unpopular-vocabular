@@ -18,14 +18,16 @@ const createAndSendToken = (user, res) => {
 
   user.password = undefined
 
-  res.status(200).json({
-    status: 'success',
-    token,
-    data: { user },
-  })
+  res.status(200).json({ user })
 }
 
-export const signup = errorCatcher(async (req, res) => {
+export const signup = errorCatcher(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email })
+
+  if (user) {
+    return next(new ErrorHandler(`User with this email already exist`, 400))
+  }
+
   const newUser = await User.create({
     email: req.body.email,
     password: req.body.password,

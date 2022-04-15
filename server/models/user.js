@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    unique: true,
+    unique: [true, 'That email address is taken'],
     trim: true,
     required: [true, 'Email is required'],
     validate: [validator.isEmail, 'Email format is invalid'],
@@ -19,6 +19,18 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Name is required'],
+  },
+})
+
+userSchema.virtual('id').get(function () {
+  return this._id.toHexString()
+})
+
+userSchema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+    delete ret._id
   },
 })
 

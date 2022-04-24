@@ -114,6 +114,7 @@ export default {
           setToken(res.token)
 
           if (redirectLink) {
+            console.log(redirectLink, 'redirectLink!!!!!!!1')
             this.$router.push({ path: redirectLink })
           } else {
             this.$router.push({ name: 'Home' })

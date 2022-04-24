@@ -2,7 +2,7 @@ import { promisify } from 'util'
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
 import { errorCatcher, ErrorHandler } from '../utils/error.js'
-import { sendEmail } from '../utils/email.js'
+import Email from '../utils/email.js'
 
 const createAndSendToken = (user, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
@@ -35,6 +35,9 @@ export const signup = errorCatcher(async (req, res, next) => {
     password: req.body.password,
     name: req.body.name,
   })
+
+  const url = 'https://www.google.com/'
+  await new Email(newUser, url).sendConfirmation()
 
   createAndSendToken(newUser, res)
 })
@@ -102,7 +105,7 @@ export const forgotPassword = errorCatcher(async (req, res, next) => {
   const resetUrl = `${url}/reset-password/${resetToken}`
 
   try {
-    await sendEmail({ email: user.email, subject: 'Resetting Password', resetUrl })
+    // await sendEmail({ email: user.email, subject: 'Resetting Password', resetUrl })
 
     res.status(200).json({
       message: 'Token sent to email',

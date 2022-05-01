@@ -61,4 +61,8 @@ export default class Email {
   async sendConfirmation() {
     await this.send(TEMPLATE_NAME.CONFIRMATION, 'Email address confirmation')
   }
+
+  async sendForgotPassword() {
+    await this.send(TEMPLATE_NAME.FORGOT_PASSWORD, 'Password resetting')
+  }
 }

@@ -73,6 +73,11 @@ const routes = [
         path: '/reset-password/:token',
         name: 'ResetPassword',
         component: () => import('../views/auth/ResetPassword.vue')
+      },
+      {
+        path: '/confirm-email/:confirmationToken',
+        name: 'ConfirmEmail',
+        component: () => import('../views/auth/ConfirmEmail.vue')
       }
     ]
   }

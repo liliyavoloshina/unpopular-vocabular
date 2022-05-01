@@ -4,7 +4,7 @@ import User from '../models/user.js'
 import { errorCatcher, ErrorHandler } from '../utils/error.js'
 import Email from '../utils/email.js'
 
-const createAndSendToken = (user, res) => {
+const createAndSetToken = (user, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
   const cookieOptions = {
@@ -30,16 +30,49 @@ export const signup = errorCatcher(async (req, res, next) => {
     return next(new ErrorHandler(`User with this email already exist`, 400))
   }
 
+  const confirmationToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET)
+
   const newUser = await User.create({
     email: req.body.email,
     password: req.body.password,
     name: req.body.name,
+    confirmationToken,
+    confirmationTokenExpires: Date.now() + 10 * 60 * 1000,
   })
 
-  const url = 'https://www.google.com/'
-  await new Email(newUser, url).sendConfirmation()
+  try {
+    const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://unpopular-vocabular.herokuapp.com'
 
-  createAndSendToken(newUser, res)
+    const confirmationUrl = `${url}/confirm-email/${confirmationToken}`
+    await new Email(newUser, confirmationUrl).sendConfirmation()
+
+    res.status(200).json({
+      message: 'Please confirm your email',
+    })
+  } catch (err) {
+    user.confirmationToken = undefined
+    user.confirmationTokenExpires = undefined
+
+    await user.save({ validateBeforeSave: false })
+
+    return next(new ErrorHandler('There was an error sending your email. Try later', 500))
+  }
+})
+
+export const verifyUser = errorCatcher(async (req, res, next) => {
+  const user = await User.findOne({ confirmationToken: req.body.confirmationToken })
+
+  if (!user) {
+    return next(new ErrorHandler(`Your verification link may have expired. Please click on resend for verify your email again`, 400))
+  }
+
+  user.isVerified = true
+  user.confirmationToken = undefined
+  user.confirmationTokenExpires = undefined
+
+  await user.save({ validateBeforeSave: false })
+
+  createAndSetToken(user, res)
 })
 
 export const signin = errorCatcher(async (req, res, next) => {
@@ -51,6 +84,10 @@ export const signin = errorCatcher(async (req, res, next) => {
 
   const user = await User.findOne({ email }).select('+password')
 
+  if (!user.isVerified) {
+    return next(new ErrorHandler(`Please Verify Your Email`, 401))
+  }
+
   if (!user) {
     return next(new ErrorHandler(`User with this email does not exist`, 401))
   }
@@ -61,7 +98,7 @@ export const signin = errorCatcher(async (req, res, next) => {
     return next(new ErrorHandler(`Incorrect email or password`, 401))
   }
 
-  createAndSendToken(user, res)
+  createAndSetToken(user, res)
 })
 
 export const protect = errorCatcher(async (req, res, next) => {
@@ -89,6 +126,7 @@ export const protect = errorCatcher(async (req, res, next) => {
   next()
 })
 
+// TODO: make
 export const forgotPassword = errorCatcher(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email })
 

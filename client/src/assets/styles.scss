@@ -29,6 +29,28 @@ $footer-padding: 2rem 1.5rem;
   }
 }
 
+.loading-dots {
+  &:after {
+    content: '\00a0\00a0\00a0';
+    animation: progress-ellipsis 1s infinite;
+  }
+}
+
+@keyframes progress-ellipsis {
+  0% {
+    content: '\00a0\00a0\00a0';
+  }
+  30% {
+    content: '.\00a0\00a0';
+  }
+  60% {
+    content: '..\00a0';
+  }
+  90% {
+    content: '...';
+  }
+}
+
 // Import Bulma's core
 @import '~bulma/sass/utilities/_all';
 @import '~bulma';

@@ -110,15 +110,10 @@ export default {
 
         try {
           const res = await signup({ name: this.name, email: this.email, password: this.password })
-          setUser(res.user)
-          setToken(res.token)
 
-          if (redirectLink) {
-            console.log(redirectLink, 'redirectLink!!!!!!!1')
-            this.$router.push({ path: redirectLink })
-          } else {
-            this.$router.push({ name: 'Home' })
-          }
+          setUser(res.user)
+
+          this.$router.push({ name: 'Welcome' })
         } catch (e) {}
 
         this.submitStatus = 'OK'

@@ -78,6 +78,11 @@ const routes = [
         path: '/confirm-email/:confirmationToken',
         name: 'ConfirmEmail',
         component: () => import('../views/auth/ConfirmEmail.vue')
+      },
+      {
+        path: '/welcome',
+        name: 'Welcome',
+        component: () => import('../views/auth/WelcomeView.vue')
       }
     ]
   }

@@ -32,10 +32,14 @@ export const signup = errorCatcher(async (req, res, next) => {
 
   const confirmationToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET)
 
-  const newUser = await User.create({
+  const newUser = {
     email: req.body.email,
     password: req.body.password,
     name: req.body.name,
+  }
+
+  await User.create({
+    ...newUser,
     confirmationToken,
     confirmationTokenExpires: Date.now() + 10 * 60 * 1000,
   })
@@ -46,12 +50,9 @@ export const signup = errorCatcher(async (req, res, next) => {
     const confirmationUrl = `${url}/confirm-email/${confirmationToken}`
     await new Email(newUser, confirmationUrl).sendConfirmation()
 
-    res.status(200).json({
-      message: 'Please confirm your email',
-    })
+    res.status(200).json({ user: newUser, message: 'Confirmation link sent to email' })
   } catch (err) {
     user.confirmationToken = undefined
-    user.confirmationTokenExpires = undefined
 
     await user.save({ validateBeforeSave: false })
 
@@ -63,7 +64,12 @@ export const verifyUser = errorCatcher(async (req, res, next) => {
   const user = await User.findOne({ confirmationToken: req.body.confirmationToken })
 
   if (!user) {
-    return next(new ErrorHandler(`Your verification link may have expired. Please click on resend for verify your email again`, 400))
+    return next(new ErrorHandler(`Error occuried. Please try to signup again`, 400))
+  }
+
+  if (user.confirmationTokenExpires < Date.now()) {
+    await User.findByIdAndDelete(user.id)
+    return next(new ErrorHandler(`Your verification link may have expired. Please try to signup again`, 400))
   }
 
   user.isVerified = true

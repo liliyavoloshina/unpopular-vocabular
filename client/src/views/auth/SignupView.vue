@@ -56,6 +56,7 @@
         </div>
       </div>
     </div>
+    <b-loading v-model="isLoading" :is-full-page="true"></b-loading>
   </section>
 </template>
 
@@ -63,6 +64,7 @@
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators'
 import { signup } from '@/api/user'
 import { setUser, setToken } from '@/helpers/localStorage'
+import { EMAIL_TYPES } from '../../helpers/constants'
 
 export default {
   name: 'SignupView',
@@ -113,11 +115,18 @@ export default {
 
           setUser(res.user)
 
-          this.$router.push({ name: 'Welcome' })
+          this.$router.push({
+            name: 'EmailSent',
+            params: {
+              emailType: EMAIL_TYPES.EMAIL_CONFIRMATION
+            }
+          })
         } catch (e) {}
 
         this.submitStatus = 'OK'
       }
+
+      this.isLoading = false
     }
   }
 }

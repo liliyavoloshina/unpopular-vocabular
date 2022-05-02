@@ -80,9 +80,10 @@ const routes = [
         component: () => import('../views/auth/ConfirmEmail.vue')
       },
       {
-        path: '/welcome',
-        name: 'Welcome',
-        component: () => import('../views/auth/WelcomeView.vue')
+        path: '/email-sent',
+        name: 'EmailSent',
+        props: true,
+        component: () => import('../views/auth/EmailSent.vue')
       }
     ]
   }

@@ -20,3 +20,8 @@ export const confirmEmail = errorCatcher(async confirmationToken => {
   const response = await axios.post('/confirm-email', { confirmationToken })
   return response.data
 })
+
+export const resetPassword = errorCatcher(async data => {
+  const response = await axios.post(`/reset-password`, data)
+  return response.data
+})

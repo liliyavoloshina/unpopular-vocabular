@@ -15,19 +15,21 @@
             </b-field>
 
             <div class="buttons is-flex-direction-column is-centered mt-5">
-              <b-button type="is-primary" class="m-0" native-type="submit" :disabled="submitStatus === 'PENDING'">Continue</b-button>
+              <b-button type="is-primary" class="m-0" native-type="submit" :disabled="isLoading">Continue</b-button>
               <router-link :to="{ name: 'Login' }" class="button is-ghost">Return to sign in</router-link>
             </div>
           </form>
         </div>
       </div>
     </div>
+    <b-loading v-model="isLoading" :is-full-page="true"></b-loading>
   </section>
 </template>
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
 import { forgotPassword } from '@/api/user'
+import { EMAIL_TYPES } from '../../helpers/constants'
 
 export default {
   name: 'ForgotPassword',
@@ -46,22 +48,25 @@ export default {
   },
   methods: {
     async onReset() {
-      this.isLoading = true
       this.$v.$touch()
 
-      if (this.$v.$invalid) {
-        this.submitStatus = 'ERROR'
-      } else {
-        this.submitStatus = 'PENDING'
+      if (!this.$v.$invalid) {
+        this.isLoading = true
 
         try {
           await forgotPassword({ email: this.email })
-          this.$buefy.toast.open({ duration: 5000, message: `Thanks, check your email for instructions to reset your password`, type: 'is-success' })
+
+          this.$router.push({
+            name: 'EmailSent',
+            params: {
+              emailType: EMAIL_TYPES.FORGOT_PASSWORD
+            }
+          })
 
           setTimeout(() => this.$router.push({ name: 'Home' }), 5000)
         } catch (e) {}
 
-        this.submitStatus = 'OK'
+        this.isLoading = false
       }
     }
   }

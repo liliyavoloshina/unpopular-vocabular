@@ -28,22 +28,25 @@
             </b-field>
 
             <div class="buttons is-flex-direction-column is-centered mt-5">
-              <b-button type="is-primary" class="m-0" native-type="submit" :disabled="submitStatus === 'PENDING'">Continue</b-button>
+              <b-button type="is-primary" class="m-0" native-type="submit" :disabled="isLoading">Continue</b-button>
             </div>
           </form>
         </div>
       </div>
     </div>
+    <b-loading v-model="isLoading" :is-full-page="true"></b-loading>
   </section>
 </template>
 
 <script>
 import { required, minLength, sameAs } from 'vuelidate/lib/validators'
+import { resetPassword } from '@/api/user'
 
 export default {
   name: 'ResetPassword',
   data() {
     return {
+      isLoading: false,
       password: '',
       repeatPassword: ''
     }
@@ -58,25 +61,25 @@ export default {
       sameAsPassword: sameAs('password')
     }
   },
-  created() {
-    console.log('aaaa')
-  },
   methods: {
     async onReset() {
-      this.isLoading = true
       this.$v.$touch()
 
-      if (this.$v.$invalid) {
-        this.submitStatus = 'ERROR'
-      } else {
-        this.submitStatus = 'PENDING'
+      if (!this.$v.$invalid) {
+        this.isLoading = true
 
         try {
-          // const res = await forgotPassword({ email: this.email })
-          console.log(`You've successfully changed your password`)
-        } catch (e) {}
+          await resetPassword({ newPassword: this.password, token: this.$route.params.token })
 
-        this.submitStatus = 'OK'
+          this.$buefy.toast.open({
+            message: `You've successfully changed your password!`,
+            type: 'is-success'
+          })
+
+          setTimeout(() => this.$router.push({ name: 'Home' }), 2000)
+        } catch (e) {
+          this.isLoading = false
+        }
       }
     }
   }

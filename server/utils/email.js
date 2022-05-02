@@ -11,7 +11,7 @@ const __dirname = dirname(__filename)
 const { convert } = htmlToText
 
 const TEMPLATE_NAME = {
-  CONFIRMATION: 'confirmation',
+  EMAIL_CONFIRMATION: 'email-confirmation',
   FORGOT_PASSWORD: 'forgot-password',
 }
 
@@ -59,7 +59,7 @@ export default class Email {
   }
 
   async sendConfirmation() {
-    await this.send(TEMPLATE_NAME.CONFIRMATION, 'Email address confirmation')
+    await this.send(TEMPLATE_NAME.EMAIL_CONFIRMATION, 'Email address confirmation')
   }
 
   async sendForgotPassword() {

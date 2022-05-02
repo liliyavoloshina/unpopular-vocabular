@@ -1,5 +1,6 @@
 import { promisify } from 'util'
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
 import User from '../models/user.js'
 import { errorCatcher, ErrorHandler } from '../utils/error.js'
 import Email from '../utils/email.js'
@@ -44,19 +45,19 @@ export const signup = errorCatcher(async (req, res, next) => {
     confirmationTokenExpires: Date.now() + 10 * 60 * 1000,
   })
 
-  try {
-    const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://unpopular-vocabular.herokuapp.com'
+  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://unpopular-vocabular.herokuapp.com'
+  const confirmationUrl = `${url}/confirm-email/${confirmationToken}`
 
-    const confirmationUrl = `${url}/confirm-email/${confirmationToken}`
+  try {
     await new Email(newUser, confirmationUrl).sendConfirmation()
 
-    res.status(200).json({ user: newUser, message: 'Confirmation link sent to email' })
+    res.status(200).json({ user: newUser, message: 'Confirmation link was sent to your email' })
   } catch (err) {
     user.confirmationToken = undefined
 
     await user.save({ validateBeforeSave: false })
 
-    return next(new ErrorHandler('There was an error sending your email. Try later', 500))
+    return next(new ErrorHandler('There was an error sending message to your email. Try later', 500))
   }
 })
 
@@ -132,7 +133,6 @@ export const protect = errorCatcher(async (req, res, next) => {
   next()
 })
 
-// TODO: make
 export const forgotPassword = errorCatcher(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email })
 
@@ -149,17 +149,33 @@ export const forgotPassword = errorCatcher(async (req, res, next) => {
   const resetUrl = `${url}/reset-password/${resetToken}`
 
   try {
-    // await sendEmail({ email: user.email, subject: 'Resetting Password', resetUrl })
+    await new Email(user, resetUrl).sendForgotPassword()
 
-    res.status(200).json({
-      message: 'Token sent to email',
-    })
+    res.status(200).json({ user, message: 'Instructions for resetting your password were sent to your email' })
   } catch (err) {
     user.passwordResetToken = undefined
     user.passwordResetExpires = undefined
 
     await user.save({ validateBeforeSave: false })
 
-    return next(new ErrorHandler('There was an error sending your email. Try later', 500))
+    return next(new ErrorHandler('There was an error sending message to your email. Try later', 500))
   }
+})
+
+export const resetPassword = errorCatcher(async (req, res, next) => {
+  const hashed = crypto.createHash('sha256').update(req.body.token).digest('hex')
+  const user = await User.findOne({ passwordResetToken: hashed, passwordResetExpires: { $gt: Date.now() } })
+
+  if (!user) {
+    return next(new ErrorHandler('Password ressetting procedure time was expired!', 400))
+  }
+
+  user.password = req.body.newPassword
+
+  user.resetPassword = undefined
+  user.passwordResetExpires = undefined
+
+  await user.save()
+
+  createAndSetToken(user, res)
 })

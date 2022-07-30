@@ -33,11 +33,13 @@ export default {
     this.isLoading = true
 
     try {
+      console.log('confirming ..... Email')
       await confirmEmail(this.$route.params.confirmationToken)
       this.isLoading = false
       this.isVerified = true
       setTimeout(() => this.$router.push({ name: 'Login' }), 5000)
     } catch (e) {
+      console.log(e, 'e')
       this.$router.push({ name: 'Signup' })
     }
 

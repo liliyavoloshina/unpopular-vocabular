@@ -13,4 +13,4 @@ const errorCatcher = fn => (...params) =>
     throw error
   })
 
-export default errorCatcher
+export { errorCatcher, EventBus }

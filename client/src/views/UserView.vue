@@ -9,6 +9,9 @@
         <b-button type="is-success" expanded :disabled="hasChanges" @click="saveChanges">
           Save changes
         </b-button>
+        <b-button type="is-danger" expanded @click="deleteAccount">
+          Delete account
+        </b-button>
       </div>
     </section>
 
@@ -16,7 +19,8 @@
   </section>
 </template>
 <script>
-import { getUser, updateUser } from '../api/user'
+import { deleteUser, getUser, updateUser } from '../api/user'
+import { EventBus } from '../helpers/helpers'
 
 export default {
   name: 'UserView',
@@ -58,6 +62,34 @@ export default {
       this.setUser(updated)
 
       this.isLoading = false
+    },
+    deleteAccount() {
+      this.$buefy.dialog.confirm({
+        title: 'Deleting account',
+        message: 'Are you sure you want to <b>delete</b> your account? This action cannot be undone.',
+        confirmText: 'Delete Account',
+        type: 'is-danger',
+        hasIcon: true,
+
+        onConfirm: async () => {
+          try {
+            this.isLoading = true
+
+            await deleteUser(this.id)
+
+            this.isLoading = false
+
+            this.$buefy.toast.open({
+              message: 'Account successfully deleted!',
+              type: 'is-success'
+            })
+
+            EventBus.$emit('logout')
+            clear()
+            this.$router.push({ name: 'Home' })
+          } catch (e) {}
+        }
+      })
     }
   }
 }

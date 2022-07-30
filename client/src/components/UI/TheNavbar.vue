@@ -70,12 +70,14 @@
 
 <script>
 import { clear, getUser } from '@/helpers/localStorage'
+import { EventBus } from '../../helpers/helpers'
 
 export default {
   name: 'TheNavbar',
   data() {
     return {
-      user: null
+      user: null,
+      EventBus
     }
   },
   computed: {
@@ -83,21 +85,24 @@ export default {
       return !!this.user
     },
     userName() {
-      return this.user.name
+      return this.user?.name
     },
     userId() {
-      return this.user.id
+      return this.user?.id
     }
   },
   created() {
     this.user = getUser()
+    EventBus.$on('logout', () => {
+      console.log('EventBus !!!!')
+      this.user = null
+    })
   },
   methods: {
     logout() {
-      clear()
       this.user = null
-
-      if (!this.$route.name === 'Home') {
+      clear()
+      if (this.$route.name !== 'Home') {
         this.$router.push({ name: 'Home' })
       }
     }

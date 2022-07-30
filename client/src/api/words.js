@@ -1,5 +1,5 @@
 import axios from './axios'
-import errorCatcher from '../helpers/helpers'
+import { errorCatcher } from '../helpers/helpers'
 
 export const getWords = errorCatcher(async () => {
   const response = await axios.get('/words')

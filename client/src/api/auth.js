@@ -1,5 +1,5 @@
 import axios from './axios'
-import errorCatcher from '../helpers/helpers'
+import { errorCatcher } from '../helpers/helpers'
 
 export const signup = errorCatcher(async user => {
   const response = await axios.post('/signup', user)
@@ -17,6 +17,7 @@ export const forgotPassword = errorCatcher(async email => {
 })
 
 export const confirmEmail = errorCatcher(async confirmationToken => {
+  console.log('confirmEmail', confirmationToken)
   const response = await axios.post('/confirm-email', { confirmationToken })
   return response.data
 })

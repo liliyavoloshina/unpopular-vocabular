@@ -5,16 +5,18 @@ import User from '../models/user.js'
 import { errorCatcher, ErrorHandler } from '../utils/error.js'
 import Email from '../utils/email.js'
 
-const createAndSetToken = (user, res) => {
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+const signToken = (id) =>
+  jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  })
+
+const createAndSetToken = (user, req, res) => {
+  const token = signToken(user._id)
 
   const cookieOptions = {
     expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-  }
-
-  if (process.env.NODE_ENV === 'production') {
-    cookieOptions.secure = true
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   }
 
   res.cookie('jwt', token, cookieOptions)
@@ -79,7 +81,7 @@ export const verifyUser = errorCatcher(async (req, res, next) => {
 
   await user.save({ validateBeforeSave: false })
 
-  createAndSetToken(user, res)
+  createAndSetToken(user, req, res)
 })
 
 export const signin = errorCatcher(async (req, res, next) => {
@@ -105,7 +107,7 @@ export const signin = errorCatcher(async (req, res, next) => {
     return next(new ErrorHandler(`Incorrect email or password`, 401))
   }
 
-  createAndSetToken(user, res)
+  createAndSetToken(user, req, res)
 })
 
 export const protect = errorCatcher(async (req, res, next) => {
@@ -114,6 +116,8 @@ export const protect = errorCatcher(async (req, res, next) => {
 
   if (headers && headers.startsWith('Bearer')) {
     token = headers.split(' ')[1]
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt
   }
 
   if (!token) {
@@ -177,5 +181,6 @@ export const resetPassword = errorCatcher(async (req, res, next) => {
 
   await user.save()
 
-  createAndSetToken(user, res)
+  // createAndSetToken(user, res)
+  createAndSetToken(user, req, res)
 })

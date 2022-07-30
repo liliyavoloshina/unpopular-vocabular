@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { getWords, getWord, updateWord, createNewWord, deleteWord } from '../controllers/words.js'
-import { protect } from '../controllers/user.js'
+import { protect } from '../controllers/auth.js'
 
 const router = express.Router()
 

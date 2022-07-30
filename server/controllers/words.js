@@ -10,7 +10,7 @@ export const getWord = errorCatcher(async (req, res, next) => {
   const word = await Word.findById(req.params.id)
 
   if (!word) {
-    return next(new ErrorHandler(`This tour doesn't exist!`, 404))
+    return next(new ErrorHandler(`This word doesn't exist!`, 404))
   }
 
   res.status(200).json({ word })

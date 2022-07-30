@@ -40,7 +40,7 @@
 
 <script>
 import { required, minLength, sameAs } from 'vuelidate/lib/validators'
-import { resetPassword } from '@/api/user'
+import { resetPassword } from '@/api/auth'
 
 export default {
   name: 'ResetPassword',

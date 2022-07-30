@@ -62,7 +62,7 @@
 
 <script>
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators'
-import { signup } from '@/api/user'
+import { signup } from '@/api/auth'
 import { setUser, setToken } from '@/helpers/localStorage'
 import { EMAIL_TYPES } from '../../helpers/constants'
 

@@ -44,7 +44,7 @@
 
 <script>
 import { required, minLength, sameAs, email } from 'vuelidate/lib/validators'
-import { signin } from '@/api/user'
+import { signin } from '@/api/auth'
 import { setUser, setToken } from '@/helpers/localStorage'
 
 export default {

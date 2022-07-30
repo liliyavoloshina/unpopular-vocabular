@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { confirmEmail } from '@/api/user'
+import { confirmEmail } from '@/api/auth'
 export default {
   name: 'ConfirmEmail',
   data() {

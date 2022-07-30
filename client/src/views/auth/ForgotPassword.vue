@@ -28,7 +28,7 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
-import { forgotPassword } from '@/api/user'
+import { forgotPassword } from '@/api/auth'
 import { EMAIL_TYPES } from '../../helpers/constants'
 
 export default {

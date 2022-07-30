@@ -27,7 +27,7 @@ const createAndSetToken = (user, req, res) => {
 }
 
 export const signup = errorCatcher(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email })
+  let user = await User.findOne({ email: req.body.email })
 
   if (user) {
     return next(new ErrorHandler(`User with this email already exist`, 400))
@@ -41,10 +41,10 @@ export const signup = errorCatcher(async (req, res, next) => {
     name: req.body.name,
   }
 
-  await User.create({
+  user = await User.create({
     ...newUser,
     confirmationToken,
-    confirmationTokenExpires: Date.now() + 10 * 60 * 1000,
+    confirmationTokenExpires: Date.now() + process.env.CONFIRMATION_TOKEN_EXPIRES_IN * 60 * 1000,
   })
 
   const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://unpopular-vocabular.herokuapp.com'
@@ -55,11 +55,9 @@ export const signup = errorCatcher(async (req, res, next) => {
 
     res.status(200).json({ user: newUser, message: 'Confirmation link was sent to your email' })
   } catch (err) {
-    user.confirmationToken = undefined
+    await User.findByIdAndDelete(user.id)
 
-    await user.save({ validateBeforeSave: false })
-
-    return next(new ErrorHandler('There was an error sending message to your email. Try later', 500))
+    return next(new ErrorHandler('There was an error sending message to your email. Please try to signup again', 500))
   }
 })
 
@@ -93,12 +91,12 @@ export const signin = errorCatcher(async (req, res, next) => {
 
   const user = await User.findOne({ email }).select('+password')
 
-  if (!user.isVerified) {
-    return next(new ErrorHandler(`Please Verify Your Email`, 401))
-  }
-
   if (!user) {
     return next(new ErrorHandler(`User with this email does not exist`, 401))
+  }
+
+  if (!user.isVerified) {
+    return next(new ErrorHandler(`Please verify your email`, 401))
   }
 
   const isCorrect = await user.checkPassword(password, user.password)
@@ -116,8 +114,8 @@ export const protect = errorCatcher(async (req, res, next) => {
 
   if (headers && headers.startsWith('Bearer')) {
     token = headers.split(' ')[1]
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt
+  } else if (req.cookies?.jwt) {
+    token = req.cookies?.jwt
   }
 
   if (!token) {

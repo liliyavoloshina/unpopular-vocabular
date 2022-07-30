@@ -25,9 +25,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  confirmationToken: {
-    type: String,
-  },
+  confirmationToken: String,
   confirmationTokenExpires: String,
   passwordChangedAt: Date,
   passwordResetToken: String,

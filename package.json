@@ -4,7 +4,7 @@
   "description": "Backend for unpopular-vocabular project",
   "main": "server.js",
   "engines": {
-    "node": ">=14.0.0"
+    "node": "14.16.1"
   },
   "scripts": {
     "start": "node server/server.js"

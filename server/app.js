@@ -1,7 +1,7 @@
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
-
+import path from 'path'
 import express from 'express'
 
 import wordsRouter from './routes/words.js'
@@ -21,7 +21,7 @@ app.use('/api/v1/user', userRouter)
 app.use('/api/v1', authRouter)
 app.use(errorSender)
 
-app.use(express.static('/dist'))
-app.get(/.*/, (res, req) => res.sendFile('dist/index.html'))
+// eslint-disable-next-line no-undef
+app.use(express.static(path.join(__dirname, '/dist')))
 
 export default app

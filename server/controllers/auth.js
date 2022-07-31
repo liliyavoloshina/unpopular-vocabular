@@ -180,6 +180,5 @@ export const resetPassword = errorCatcher(async (req, res, next) => {
 
   await user.save()
 
-  // createAndSetToken(user, res)
   createAndSetToken(user, req, res)
 })

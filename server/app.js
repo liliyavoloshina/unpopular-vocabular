@@ -2,20 +2,23 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import express from 'express'
+import path from 'path'
 
 import wordsRouter from './routes/words.js'
 import authRouter from './routes/auth.js'
 import userRouter from './routes/user.js'
 import errorSender from './controllers/error.js'
 
+const __dirname = path.resolve()
+
 dotenv.config({ path: './.env' })
 
 const app = express()
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('/dist'))
+  app.use(express.static(`${__dirname}/client/dist`))
   app.get('*', (req, res) => {
-    res.sendFile('/dist/index.html')
+    res.sendFile(`${__dirname}/client/dist/index.html`)
   })
 }
 

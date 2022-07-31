@@ -12,6 +12,6 @@ mongoose.connect(db, { useNewUrlParser: true })
 const server = app.listen(process.env.PORT || 3000, () => console.log(`Listening to: http://127.0.0.1:${process.env.PORT || 3000}`))
 
 process.on('unhandledRejection', (err) => {
-  console.log(err)
+  console.error(err)
   server.close(() => process.exit(1))
 })

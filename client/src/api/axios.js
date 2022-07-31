@@ -14,15 +14,7 @@ axios.interceptors.request.use(
       delete config.headers.Authorization
     }
 
-    console.log(config)
-
     return config
-    // const token = getToken()
-
-    // if (token) {
-    //   axios.defaults.headers.common = { Authorization: `Bearer ${token}` }
-    // }
-    // return config
   },
   error => {
     return Promise.reject(error)

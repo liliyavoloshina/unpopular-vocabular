@@ -5,13 +5,15 @@ axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? process.env.VU
 axios.defaults.withCredentials = true
 
 axios.interceptors.request.use(
-  config => {
+  async config => {
     const token = getToken()
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
+    } else {
+      config.headers.Authorization = undefined
     }
-    console.log('request config', config)
+
     return config
     // const token = getToken()
 

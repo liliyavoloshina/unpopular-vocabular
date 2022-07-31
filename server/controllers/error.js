@@ -48,31 +48,33 @@ export default (err, req, res, next) => {
   err.statusCode = err.statusCode || 500
   err.status = err.status || 'error'
 
-  if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, res)
-  } else if (process.env.NODE_ENV === 'production') {
-    let error = { ...err }
+  sendErrorDev(err, res)
 
-    if (err.name === 'ValidationError') {
-      error = handleValidationErrorDB(error)
-    }
+  // if (process.env.NODE_ENV === 'development') {
+  //   sendErrorDev(err, res)
+  // } else if (process.env.NODE_ENV === 'production') {
+  //   let error = { ...err }
 
-    if (err.name === 'CastError') {
-      error = handleCastErrorDB(error)
-    }
+  //   if (err.name === 'ValidationError') {
+  //     error = handleValidationErrorDB(error)
+  //   }
 
-    if (err.code === 11000) {
-      error = handleDuplicateErrorDB(error)
-    }
+  //   if (err.name === 'CastError') {
+  //     error = handleCastErrorDB(error)
+  //   }
 
-    if (err.name === 'JsonWebTokenError') {
-      error = handleJsonWebTokenError(error)
-    }
+  //   if (err.code === 11000) {
+  //     error = handleDuplicateErrorDB(error)
+  //   }
 
-    if (err.name === 'TokenExpiredError') {
-      error = handleTokenExpiredError(error)
-    }
+  //   if (err.name === 'JsonWebTokenError') {
+  //     error = handleJsonWebTokenError(error)
+  //   }
 
-    sendErrorProd(error, res)
-  }
+  //   if (err.name === 'TokenExpiredError') {
+  //     error = handleTokenExpiredError(error)
+  //   }
+
+  //   sendErrorProd(error, res)
+  // }
 }

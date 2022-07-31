@@ -46,6 +46,9 @@ export default {
       email
     }
   },
+  created() {
+    this.email = this.$route.params.email
+  },
   methods: {
     async onReset() {
       this.$v.$touch()
@@ -62,8 +65,6 @@ export default {
               emailType: EMAIL_TYPES.FORGOT_PASSWORD
             }
           })
-
-          setTimeout(() => this.$router.push({ name: 'Home' }), 5000)
         } catch (e) {}
 
         this.isLoading = false

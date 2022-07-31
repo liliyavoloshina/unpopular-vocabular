@@ -66,7 +66,7 @@ export default {
     try {
       this.words = await getWords()
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
     this.isLoading = false
   },

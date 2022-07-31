@@ -2,7 +2,6 @@ import axios from './axios'
 import { errorCatcher } from '../helpers/helpers'
 
 export const getUser = errorCatcher(async id => {
-  console.log(id, 'getUser')
   const response = await axios.get(`/user/${id}`)
   return response.data.user
 })

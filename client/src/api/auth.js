@@ -17,7 +17,6 @@ export const forgotPassword = errorCatcher(async email => {
 })
 
 export const confirmEmail = errorCatcher(async confirmationToken => {
-  console.log('confirmEmail', confirmationToken)
   const response = await axios.post('/confirm-email', { confirmationToken })
   return response.data
 })

@@ -1,12 +1,21 @@
 import axios from 'axios'
 import { getToken } from '../helpers/localStorage'
 
-const token = getToken()
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? process.env.VUE_APP_DEV_SERVER_URL : process.env.VUE_APP_PROD_SERVER_URL
+axios.defaults.withCredentials = true
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3000/api/v1' : 'https://unpopular-vocabular.herokuapp.com/'
+axios.interceptors.request.use(
+  config => {
+    const token = getToken()
 
-if (token) {
-  axios.defaults.headers.common = { Authorization: `Bearer ${token}` }
-}
+    if (token) {
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` }
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
 
 export default axios

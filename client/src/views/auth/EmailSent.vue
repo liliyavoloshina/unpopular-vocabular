@@ -7,7 +7,10 @@
             <b-icon icon="paper-plane" size="is-large" style="fontSize: 56px;" type="is-info"></b-icon>
           </div>
           <div class="column is-full has-text-centered">
-            <p class="is-size-4">{{ mainText }} Please check your inbox</p>
+            <p class="is-size-4 pb-5">{{ mainText }} Please check your inbox</p>
+
+            <div class="buttons"><b-button tag="a" href="mailto:" type="is-primary" expanded focused>Check email</b-button></div>
+
             <p v-if="emailType === EMAIL_TYPES.EMAIL_CONFIRMATION" class="is-size-5 mt-2 has-text-grey">
               Is <span class="has-text-primary">{{ email }}</span> your correct email? If not,
               <router-link :to="{ name: 'Signup' }" class="is-underlined has-text-link">restart sign up proccess</router-link>

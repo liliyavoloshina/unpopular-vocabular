@@ -19,8 +19,9 @@
   </section>
 </template>
 <script>
-import { deleteUser, getUser, updateUser } from '../api/user'
-import { EventBus } from '../helpers/helpers'
+import { deleteUser, getUser, updateUser } from '@/api/user'
+import { clear } from '@/helpers/localStorage'
+import { EventBus } from '@/helpers/helpers'
 
 export default {
   name: 'UserView',
@@ -85,8 +86,8 @@ export default {
             })
 
             EventBus.$emit('logout')
-            clear()
             this.$router.push({ name: 'Home' })
+            clear()
           } catch (e) {}
         }
       })

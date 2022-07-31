@@ -15,14 +15,6 @@
       <b-navbar-item tag="router-link" :to="{ name: 'Test' }" exact>
         Test
       </b-navbar-item>
-      <b-navbar-dropdown label="Info">
-        <b-navbar-item href="#">
-          About
-        </b-navbar-item>
-        <b-navbar-item href="#">
-          Contact
-        </b-navbar-item>
-      </b-navbar-dropdown>
     </template>
 
     <template #end>
@@ -70,7 +62,7 @@
 
 <script>
 import { clear, getUser } from '@/helpers/localStorage'
-import { EventBus } from '../../helpers/helpers'
+import { EventBus } from '@/helpers/helpers'
 
 export default {
   name: 'TheNavbar',
@@ -94,7 +86,6 @@ export default {
   created() {
     this.user = getUser()
     EventBus.$on('logout', () => {
-      console.log('EventBus !!!!')
       this.user = null
     })
   },

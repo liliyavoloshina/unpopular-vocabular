@@ -45,7 +45,8 @@
                 'Please agree': !$v.agreement.sameAs && $v.agreement.$error
               }"
             >
-              <b-checkbox v-model="$v.agreement.$model">I agree to the <a href="#" class="is-underlined has-text-primary">terms and conditions</a></b-checkbox>
+              <b-checkbox v-model="$v.agreement.$model">I agree to the </b-checkbox>
+              <b-button type="is-ghost" class="p-0" @click="openTerms">terms and conditions</b-button>
             </b-field>
 
             <div class="buttons is-flex-direction-column is-centered mt-5">
@@ -101,6 +102,13 @@ export default {
     }
   },
   methods: {
+    openTerms() {
+      this.$buefy.dialog.alert({
+        title: 'Terms and Conditions',
+        message: `C'mon, really?! Nobody ever reads the terms`,
+        confirmText: 'True'
+      })
+    },
     async onSignup() {
       this.isLoading = true
       this.$v.$touch()

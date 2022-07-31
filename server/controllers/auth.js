@@ -185,7 +185,7 @@ export const resetPassword = errorCatcher(async (req, res, next) => {
 
 export const logout = (req, res) => {
   res.cookie('jwt', 'loggedout', {
-    expires: Date.now(),
+    expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
   })
 

@@ -11,8 +11,10 @@ axios.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     } else {
-      config.headers.Authorization = undefined
+      delete config.headers.Authorization
     }
+
+    console.log(config)
 
     return config
     // const token = getToken()

@@ -4,10 +4,6 @@ import User from '../models/user.js'
 export const getUser = errorCatcher(async (req, res, next) => {
   const user = await User.findById(req.params.id, { name: 1, email: 1 })
 
-  console.log(req.params.id, 'req.params.id')
-
-  console.log(user)
-
   if (!user) {
     return next(new ErrorHandler(`This user doesn't exist!`, 404))
   }

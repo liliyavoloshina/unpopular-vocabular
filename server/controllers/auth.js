@@ -14,9 +14,10 @@ const createAndSetToken = (user, req, res) => {
   const token = signToken(user._id)
 
   const cookieOptions = {
-    expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+    sameSite: 'None',
+    secure: process.env.NODE_ENV !== 'development',
   }
 
   res.cookie('jwt', token, cookieOptions)
@@ -114,8 +115,8 @@ export const protect = errorCatcher(async (req, res, next) => {
 
   if (headers && headers.startsWith('Bearer')) {
     token = headers.split(' ')[1]
-  } else if (req.cookies?.jwt) {
-    token = req.cookies?.jwt
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt
   }
 
   if (!token) {

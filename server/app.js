@@ -21,7 +21,6 @@ app.use('/api/v1/user', userRouter)
 app.use('/api/v1', authRouter)
 app.use(errorSender)
 
-// eslint-disable-next-line no-undef
-app.use(express.static(path.join(__dirname, '/dist')))
+app.use(express.static(path.join('/dist')))
 
 export default app

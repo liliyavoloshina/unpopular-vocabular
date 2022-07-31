@@ -63,6 +63,7 @@
 <script>
 import { clear, getUser } from '@/helpers/localStorage'
 import { EventBus } from '@/helpers/helpers'
+import { logout } from '@/api/auth'
 
 export default {
   name: 'TheNavbar',
@@ -90,12 +91,13 @@ export default {
     })
   },
   methods: {
-    logout() {
+    async logout() {
       this.user = null
       clear()
       if (this.$route.name !== 'Home') {
         this.$router.push({ name: 'Home' })
       }
+      await logout()
     }
   }
 }

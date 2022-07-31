@@ -22,6 +22,7 @@
 import { deleteUser, getUser, updateUser } from '@/api/user'
 import { clear } from '@/helpers/localStorage'
 import { EventBus } from '@/helpers/helpers'
+import { logout } from '@/api/auth'
 
 export default {
   name: 'UserView',
@@ -86,6 +87,7 @@ export default {
             })
 
             EventBus.$emit('logout')
+            await logout()
             this.$router.push({ name: 'Home' })
             clear()
           } catch (e) {}

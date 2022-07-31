@@ -25,3 +25,8 @@ export const resetPassword = errorCatcher(async data => {
   const response = await axios.post(`/reset-password`, data)
   return response.data
 })
+
+export const logout = errorCatcher(async () => {
+  const response = await axios.get(`/logout`)
+  return response.data
+})

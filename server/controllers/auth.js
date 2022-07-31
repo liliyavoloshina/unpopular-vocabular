@@ -182,3 +182,12 @@ export const resetPassword = errorCatcher(async (req, res, next) => {
 
   createAndSetToken(user, req, res)
 })
+
+export const logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: Date.now(),
+    httpOnly: true,
+  })
+
+  res.status(200).json({ status: 'success' })
+}

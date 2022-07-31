@@ -21,4 +21,7 @@ app.use('/api/v1/user', userRouter)
 app.use('/api/v1', authRouter)
 app.use(errorSender)
 
+app.use(express.static('/dist'))
+app.get(/.*/, (res, req) => res.sendFile('dist/index.html'))
+
 export default app

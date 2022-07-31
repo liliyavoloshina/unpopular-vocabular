@@ -4,7 +4,8 @@
   "description": "Backend for unpopular-vocabular project",
   "main": "server.js",
   "scripts": {
-    "serve": "nodemon ./server server.js"
+    "start": "node server/server.js",
+    "dev": "env-cmd -f ./server/.env node server/server.js"
   },
   "keywords": [],
   "author": "liliyavoloshina",
@@ -12,6 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "env-cmd": "^10.0.1",
     "express": "^4.17.1",
     "mongoose": "^5.12.0"
   },

@@ -48,7 +48,7 @@ export const signup = errorCatcher(async (req, res, next) => {
     confirmationTokenExpires: Date.now() + process.env.CONFIRMATION_TOKEN_EXPIRES_IN * 60 * 1000,
   })
 
-  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://unpopular-vocabular.herokuapp.com'
+  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : process.env.PROD_CLIENT_URL
   const confirmationUrl = `${url}/confirm-email/${confirmationToken}`
 
   try {
@@ -147,7 +147,7 @@ export const forgotPassword = errorCatcher(async (req, res, next) => {
 
   await user.save({ validateBeforeSave: false })
 
-  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'https://unpopular-vocabular.herokuapp.com'
+  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : process.env.PROD_CLIENT_URL
 
   const resetUrl = `${url}/reset-password/${resetToken}`
 

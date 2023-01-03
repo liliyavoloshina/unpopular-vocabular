@@ -15,9 +15,7 @@ dotenv.config({ path: './.env' })
 
 const app = express()
 
-// if (process.env.NODE_ENV === 'production') {
 app.use('/', express.static(`${__dirname}/client/dist`))
-// }
 
 app.use(cookieParser())
 app.use(express.json())
@@ -27,10 +25,8 @@ app.use('/api/v1/user', userRouter)
 app.use('/api/v1', authRouter)
 app.use(errorSender)
 
-// if (process.env.NODE_ENV === 'production') {
 app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/client/dist/index.html`)
 })
-// }
 
 export default app

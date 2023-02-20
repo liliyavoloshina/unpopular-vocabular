@@ -17,4 +17,4 @@ Also has authorization and email-confirmation!
 - [vue.js](https://vuejs.org/)
 - [buefy](https://buefy.org/)
 
-Live: https://unpopular-vocabular-production.up.railway.app
+Live: https://unpopular-vocabular-production.up.railway.app (may be down at the end of the month)
